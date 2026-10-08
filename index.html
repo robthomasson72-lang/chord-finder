@@ -271,6 +271,23 @@
   line-height: 1.6;
   margin-top: 12px;
 }
+
+/* Version 1.8 — chord exploration */
+.explorer-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.explorer-button { flex:1; min-width:135px; padding:13px 10px; border:1px solid #6687a8; border-radius:10px; background:#405a76; color:white; font-size:15px; font-weight:650; cursor:pointer; }
+.explorer-button[aria-pressed="true"] { background:#547da5; border-color:#a6d1ff; }
+.explorer-panel { margin-top:16px; text-align:left; }
+.explorer-panel[hidden] { display:none; }
+.explorer-panel h3 { margin:0 0 10px; font-size:17px; }
+.explorer-hint { color:#b7bac3; font-size:13px; line-height:1.5; }
+.explorer-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:14px; }
+.explorer-card { background:#373d47; border:1px solid #4a5462; border-radius:11px; padding:13px; min-width:0; }
+.explorer-card strong { display:block; font-size:19px; margin-bottom:5px; overflow-wrap:anywhere; }
+.explorer-card small { display:block; color:#aeb7c6; line-height:1.4; }
+.explorer-card p { margin:9px 0 0; font-size:13px; line-height:1.45; color:#e2e5ec; }
+.explorer-category { font-size:11px; letter-spacing:.3px; color:#a8d2ff; text-transform:uppercase; }
+@media(max-width:390px) { .explorer-grid {grid-template-columns:1fr;} }
+
   </style>
 </head>
 
@@ -484,6 +501,9 @@ function selectChord() {
   `;
 
   details.hidden = false;
+  renderChordExplorer(details, { key, mode, rootLetterIndex: (rootLetterIndex + i) % 7,
+    keyRootLetterIndex: rootLetterIndex, degreeIndex: i,
+    rootName: noteName(letter, pitch), rootPitch: pitch, quality: qualities[i], chord });
 }
 
 card.addEventListener("click", selectChord);
@@ -773,6 +793,148 @@ document.getElementById("key").addEventListener("change", () => {
 document.getElementById("scale").addEventListener("change", () => {
   if (!borrowedSection.hidden) getBorrowedChords();
 });
+
+// Version 1.8: spell notes by their letter and pitch, including extensions.
+function spelledNote(letterIndex, pitch) {
+  return noteName(letterNames[(letterIndex + 7) % 7], (pitch + 12) % 12);
+}
+function chordNotesFor(rootLetterIndex, rootPitch, offsets) {
+  return offsets.map(([letterOffset, semitones]) =>
+    spelledNote(rootLetterIndex + letterOffset, rootPitch + semitones));
+}
+function extensionChoices(info) {
+  const { rootLetterIndex, rootPitch, quality, rootName } = info;
+  const minor = quality === 'm';
+  const diminished = quality === 'dim';
+  const entries = [];
+  const add = (suffix, offsets, description) => entries.push({
+    name: rootName + suffix,
+    notes: chordNotesFor(rootLetterIndex, rootPitch, offsets), description
+  });
+  if (diminished) {
+    add('m7b5', [[0,0],[2,3],[4,6],[6,10]], 'Half-diminished seventh; tense and unresolved.');
+    add('dim7', [[0,0],[2,3],[4,6],[6,9]], 'Fully diminished seventh; symmetrical and dramatic.');
+    return entries;
+  }
+  const third = minor ? 3 : 4;
+  const triad = [[0,0],[2,third],[4,7]];
+  if (minor) {
+    add('m7', [...triad,[6,10]], 'Warm minor seventh; softens the minor triad.');
+    add('m(maj7)', [...triad,[6,11]], 'Minor-major seventh; haunting and tense.');
+    add('m9', [...triad,[6,10],[1,14]], 'Minor ninth; spacious and atmospheric.');
+    add('madd9', [...triad,[1,14]], 'Minor triad with an added ninth, without a seventh.');
+  } else {
+    add('maj7', [...triad,[6,11]], 'Major seventh; lush and reflective.');
+    add('7', [...triad,[6,10]], 'Dominant seventh; adds tension that often leads to another chord.');
+    add('9', [...triad,[6,10],[1,14]], 'Dominant ninth; colourful and bluesy.');
+    add('add9', [...triad,[1,14]], 'Major triad with an added ninth, without a seventh.');
+  }
+  add('sus2', [[0,0],[1,2],[4,7]], 'Suspended second; replaces the third with the second.');
+  add('sus4', [[0,0],[3,5],[4,7]], 'Suspended fourth; replaces the third with the fourth.');
+  return entries;
+}
+function substitutionsFor(info) {
+  const { key, mode, rootPitch, keyRootLetterIndex, degreeIndex, quality, chord } = info;
+  const scaleSteps = mode === 'major' ? majorSteps : minorSteps;
+  const scaleQualities = mode === 'major' ? majorQuality : minorQuality;
+  const scaleDegrees = mode === 'major' ? majorDegrees : minorDegrees;
+  const items = [];
+  function diatonic(index) {
+    const p = (roots[key] + scaleSteps[index]) % 12;
+    return noteName(letterNames[(keyRootLetterIndex + index) % 7], p) + scaleQualities[index];
+  }
+  // Relative-function alternatives share two or more chord tones, but are not always interchangeable.
+  if (quality !== 'dim') {
+    const candidates = [0,1,2,3,4,5].filter(i => i !== degreeIndex);
+    const pitchSet = new Set([0, quality === 'm' ? 3 : 4, 7].map(x => (rootPitch+x)%12));
+    const scored = candidates.map(i => {
+      const r = (roots[key] + scaleSteps[i]) % 12;
+      const third = scaleQualities[i] === 'm' ? 3 : 4;
+      const notes = [r,(r+third)%12,(r+7)%12];
+      return {i,shared:notes.filter(n => pitchSet.has(n)).length};
+    }).filter(x=>x.shared>=2).sort((a,b)=>b.shared-a.shared).slice(0,2);
+    scored.forEach(({i,shared})=>items.push({
+      name:diatonic(i), type:'Shared-tone alternative',
+      text:`Shares ${shared} notes with ${chord}. Try it for a change in bass movement or harmonic colour; the function may change.`
+    }));
+  }
+  // Borrowed minor iv in major keys; relative to the fourth scale degree.
+  if (mode === 'major' && degreeIndex === 3) {
+    const fourthLetter = (keyRootLetterIndex + 3) % 7;
+    const fourthPitch = (roots[key] + 5) % 12;
+    items.unshift({name:spelledNote(fourthLetter, fourthPitch)+'m', type:'Borrowed iv',
+      text:'Borrowed from the parallel minor. A bittersweet alternative to the major IV.'});
+  }
+  // Secondary dominant of the dominant: II7 -> V (not a same-function substitution).
+  if (mode === 'major' && degreeIndex === 1) {
+    const secondLetter = (keyRootLetterIndex + 1) % 7;
+    const secondPitch = (roots[key] + 2) % 12;
+    items.push({name:spelledNote(secondLetter,secondPitch)+'7',type:'Secondary dominant (V7/V)',
+      text:'Try this in place of ii when moving to V. It introduces an outside note and stronger forward motion.'});
+  }
+  // Picardy third in natural minor.
+  if (mode === 'minor' && degreeIndex === 0) {
+    items.push({name:info.rootName,type:'Major tonic (Picardy third)',
+      text:'Use the major tonic at a final cadence for a brighter resolution; it is not a direct substitute throughout the song.'});
+  }
+  return items;
+}
+function renderChordExplorer(details, info) {
+  const actions = document.createElement('div');
+  actions.className = 'explorer-actions';
+  const panel = document.createElement('section');
+  panel.className = 'explorer-panel';
+  panel.hidden = true;
+  const modes = [
+    ['extensions','Explore Extensions'],
+    ['substitutions','Explore Substitutions']
+  ];
+  const buttons = [];
+  function show(which) {
+    const active = buttons.find(b=>b.dataset.mode===which);
+    const wasOpen = active.getAttribute('aria-pressed') === 'true';
+    buttons.forEach(b=>b.setAttribute('aria-pressed','false'));
+    if (wasOpen) { panel.hidden=true; panel.replaceChildren(); return; }
+    active.setAttribute('aria-pressed','true');
+    panel.hidden=false;
+    panel.replaceChildren();
+    const heading = document.createElement('h3');
+    heading.textContent = which==='extensions' ? 'Chord extensions & variations' : 'Substitutions & reharmonizations';
+    const hint = document.createElement('p');
+    hint.className='explorer-hint';
+    hint.textContent = which==='extensions'
+      ? 'These are alternative voicings or chord types built on the same root. Suspended chords replace the third.'
+      : 'These are creative alternatives, not guaranteed one-for-one replacements. Play them in context to hear what changes.';
+    const grid = document.createElement('div');
+    grid.className='explorer-grid';
+    const choices = which==='extensions' ? extensionChoices(info) : substitutionsFor(info);
+    choices.forEach(choice=>{
+      const card=document.createElement('div'); card.className='explorer-card';
+      const name=document.createElement('strong'); name.textContent=choice.name;
+      card.appendChild(name);
+      const detail=document.createElement('small');
+      detail.textContent=which==='extensions' ? choice.notes.join(' · ') : choice.type;
+      card.appendChild(detail);
+      const description=document.createElement('p'); description.textContent=choice.description || choice.text;
+      card.appendChild(description); grid.appendChild(card);
+    });
+    if (!choices.length) {
+      const msg=document.createElement('p'); msg.className='explorer-hint';
+      msg.textContent='No curated substitutions for this chord yet. Try its extensions instead.';
+      grid.appendChild(msg);
+    }
+    panel.append(heading,hint,grid);
+  }
+  modes.forEach(([mode,label])=>{
+    const button=document.createElement('button'); button.type='button';
+    button.className='explorer-button'; button.dataset.mode=mode;
+    button.textContent=label; button.setAttribute('aria-pressed','false');
+    button.addEventListener('click',()=>show(mode));
+    actions.appendChild(button); buttons.push(button);
+  });
+  details.append(actions,panel);
+}
+
   </script>
 </body>
 </html>
