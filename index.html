@@ -1290,6 +1290,22 @@ document.getElementById('builderClear').addEventListener('click',()=>{builderSta
 
 // Version 1.9.1 — offline chord playback using Web Audio (no downloaded samples).
 let audioContext=null;
+// iOS WebKit requires audio to be unlocked synchronously within the tap handler.
+// Start a nearly silent one-shot source before awaiting the resume promise.
+function activateAudioFromGesture(){
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass)throw new Error('Web Audio is unavailable');
+  if(!audioContext || audioContext.state==='closed')audioContext=new AudioContextClass();
+  const ctx=audioContext;
+  const oscillator=ctx.createOscillator();
+  const gain=ctx.createGain();
+  gain.gain.value=0.00001;
+  oscillator.connect(gain);gain.connect(ctx.destination);
+  oscillator.start(0);oscillator.stop(ctx.currentTime+0.025);
+  oscillator.onended=()=>{try{oscillator.disconnect();gain.disconnect();}catch(e){}};
+  return ctx.resume();
+}
+
 let playbackTimer=null;
 let activeVoices=[];
 let playbackGeneration=0;
@@ -1416,9 +1432,9 @@ playButton.addEventListener('click',async()=>{
   document.getElementById('playTempo').value=tempo;
   stopPlayback();
   try {
-    audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
-    await audioContext.resume();
-  } catch(e) {playbackStatus.textContent='Audio could not start. Try opening in Safari or Chrome.';return;}
+    await activateAudioFromGesture();
+  } catch(e) {playbackStatus.textContent='Audio could not start: '+(e.message||e);return;}
+  if(audioContext.state!=='running'){playbackStatus.textContent='iPhone audio is suspended. Tap Play again after checking media volume.';return;}
   playbackActive=true;playButton.disabled=true;stopButton.disabled=false;
   const generation=playbackGeneration;
   currentPlaybackMeter=normalizedMeter(document.getElementById('playMeter').value);
@@ -1672,9 +1688,9 @@ document.getElementById('songPlay').addEventListener('click',async()=>{
   document.getElementById('songTempo').value=tempo;
   stopSong();
   try {
-    audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
-    await audioContext.resume();
-  }catch(e){songStatus.textContent='Audio could not start. Tap Play again.';return;}
+    await activateAudioFromGesture();
+  }catch(e){songStatus.textContent='Audio could not start: '+(e.message||e);return;}
+  if(audioContext.state!=='running'){songStatus.textContent='iPhone audio is suspended. Tap Play again after checking media volume.';return;}
   songPlaying=true;
   document.getElementById('songPlay').disabled=true;
   document.getElementById('songStop').disabled=false;
