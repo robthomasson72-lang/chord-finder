@@ -232,6 +232,45 @@
   margin-top: 10px;
   font-size: 15px;
 }
+.borrowed-example {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #454b55;
+}
+
+.borrowed-example-title {
+  color: #a0a5b0;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.borrowed-progression {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.borrowed-progression-chord {
+  background: #414957;
+  padding: 13px 4px;
+  border-radius: 9px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.borrowed-progression-chord.highlight {
+  background: #405a76;
+  border: 1px solid #80b8ff;
+}
+
+.borrowed-explanation {
+  color: #b7bac3;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 12px;
+}
   </style>
 </head>
 
@@ -544,6 +583,41 @@ const borrowedLibrary = {
       description: "Gentle / hopeful" }
   ]
 };
+const borrowedExamples = {
+  major: [
+    {
+      progression: [0, 7, 5, 0],
+      explanation: "The minor iv adds a bittersweet colour before returning home."
+    },
+    {
+      progression: [0, 8, 10, 0],
+      explanation: "The flat VI and flat VII create a dramatic, cinematic lift."
+    },
+    {
+      progression: [0, 5, 10, 0],
+      explanation: "The flat VII adds a classic rock and Mixolydian flavour."
+    },
+    {
+      progression: [0, 3, 10, 0],
+      explanation: "The flat III introduces a surprising change of colour."
+    }
+  ],
+
+  minor: [
+    {
+      progression: [0, 5, 10, 0],
+      explanation: "The major IV adds a brighter, Dorian-like quality."
+    },
+    {
+      progression: [0, 8, 5, 0],
+      explanation: "The major tonic gives the ending a strong, brighter resolution."
+    },
+    {
+      progression: [0, 2, 7, 0],
+      explanation: "The minor ii creates an unexpected, more hopeful movement."
+    }
+  ]
+};
 
 const flatNames = [
   "C","Db","D","Eb","E","F",
@@ -587,7 +661,77 @@ function getBorrowedChords() {
       [pitch, third, fifth].map(p => names[p]).join(" – ");
 
     card.append(title, description, notes);
-    container.appendChild(card);
+
+// Find the matching example progression
+const itemIndex = borrowedLibrary[mode].indexOf(item);
+const example = borrowedExamples[mode][itemIndex];
+
+// Build the progression section
+const exampleSection = document.createElement("div");
+exampleSection.className = "borrowed-example";
+
+const exampleTitle = document.createElement("div");
+exampleTitle.className = "borrowed-example-title";
+exampleTitle.textContent = "TRY THIS PROGRESSION";
+
+const progressionRow = document.createElement("div");
+progressionRow.className = "borrowed-progression";
+
+// Identify the borrowed chord
+const borrowedPitch = (rootPitch + item.offset) % 12;
+const borrowedName = chord;
+
+// Calculate the notes for a diatonic chord in this key
+function diatonicChord(index) {
+  const intervals = mode === "major" ? majorSteps : minorSteps;
+  const qualities = mode === "major" ? majorQuality : minorQuality;
+  const rootLetterIndex = letterNames.indexOf(key[0]);
+
+  const letter = letterNames[(rootLetterIndex + index) % 7];
+  const pitch = (rootPitch + intervals[index]) % 12;
+
+  return noteName(letter, pitch) + qualities[index];
+}
+
+// Convert the progression into chord names
+example.progression.forEach((offset, position) => {
+  const box = document.createElement("div");
+  box.className = "borrowed-progression-chord";
+
+  // Borrowed chord is always in position 3, except
+  // for examples where it occurs elsewhere.
+  const isBorrowed = position === 2;
+
+  let chordName;
+
+  if (isBorrowed) {
+    chordName = borrowedName;
+    box.classList.add("highlight");
+  } else {
+    const intervals = mode === "major" ? majorSteps : minorSteps;
+    const degreeIndex = intervals.indexOf(offset);
+
+    chordName = degreeIndex >= 0
+      ? diatonicChord(degreeIndex)
+      : (flatNames[(rootPitch + offset) % 12]);
+  }
+
+  box.textContent = chordName;
+  progressionRow.appendChild(box);
+});
+
+const explanation = document.createElement("div");
+explanation.className = "borrowed-explanation";
+explanation.textContent = example.explanation;
+
+exampleSection.append(
+  exampleTitle,
+  progressionRow,
+  explanation
+);
+
+card.appendChild(exampleSection);
+container.appendChild(card);
   });
 }
 
