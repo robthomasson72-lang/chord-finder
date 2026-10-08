@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#17191d">
   <title>Chord Finder</title>
 
+
   <style>
     #progressionSection {
   margin-top: 40px;
@@ -182,6 +183,55 @@
       #chords { gap: 8px; }
       .chord-name { font-size: 21px; }
     }
+    #borrowedButton {
+  display: block;
+  width: 100%;
+  margin-top: 25px;
+  padding: 17px;
+  background: #405a76;
+  color: white;
+  border: 1px solid #6687a8;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#borrowedButton:hover {
+  background: #527396;
+}
+
+#borrowedSection {
+  margin-top: 25px;
+}
+
+#borrowedSection[hidden] {
+  display: none;
+}
+
+.borrowed-card {
+  background: #30343d;
+  border: 1px solid #424750;
+  border-radius: 12px;
+  padding: 17px;
+  margin-bottom: 12px;
+}
+
+.borrowed-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.borrowed-description {
+  color: #b7bac3;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.borrowed-notes {
+  margin-top: 10px;
+  font-size: 15px;
+}
   </style>
 </head>
 
@@ -223,6 +273,17 @@
     Common progressions for songwriting
   </p>
   <div id="progressions"></div>
+  <button id="borrowedButton" type="button">
+  Explore Borrowed Chords
+</button>
+
+<section id="borrowedSection" hidden>
+  <h2>Borrowed Chords</h2>
+  <p class="progression-subtitle">
+    Discover new colours outside your key
+  </p>
+  <div id="borrowedChords"></div>
+</section>
 </section>
   </main>
 
@@ -460,6 +521,95 @@ selectedProgressions.forEach(progression => {
     document.getElementById("key").addEventListener("change", getChords);
     document.getElementById("scale").addEventListener("change", getChords);
     getChords();
+    const borrowedButton = document.getElementById("borrowedButton");
+const borrowedSection = document.getElementById("borrowedSection");
+
+const borrowedLibrary = {
+  major: [
+    { degree: "iv", offset: 5, quality: "m",
+      description: "Melancholic / bittersweet" },
+    { degree: "bVI", offset: 8, quality: "",
+      description: "Cinematic / dramatic" },
+    { degree: "bVII", offset: 10, quality: "",
+      description: "Rock / modal" },
+    { degree: "bIII", offset: 3, quality: "",
+      description: "Unexpected / colourful" }
+  ],
+  minor: [
+    { degree: "IV", offset: 5, quality: "",
+      description: "Bright / uplifting" },
+    { degree: "I", offset: 0, quality: "",
+      description: "Strong / resolved" },
+    { degree: "ii", offset: 2, quality: "m",
+      description: "Gentle / hopeful" }
+  ]
+};
+
+const flatNames = [
+  "C","Db","D","Eb","E","F",
+  "Gb","G","Ab","A","Bb","B"
+];
+
+function getBorrowedChords() {
+  const key = document.getElementById("key").value;
+  const mode = document.getElementById("scale").value;
+  const rootPitch = roots[key];
+
+  const container = document.getElementById("borrowedChords");
+  container.replaceChildren();
+
+  borrowedLibrary[mode].forEach(item => {
+    const pitch = (rootPitch + item.offset) % 12;
+
+    const preferFlats = ["F","Bb","Eb","Ab","D","G","C"].includes(key);
+    const names = preferFlats ? flatNames : chromatic;
+
+    const chord = names[pitch] + item.quality;
+
+    const third = (pitch + (item.quality === "m" ? 3 : 4)) % 12;
+    const fifth = (pitch + 7) % 12;
+
+    const card = document.createElement("div");
+    card.className = "borrowed-card";
+
+    const title = document.createElement("div");
+    title.className = "borrowed-name";
+    title.textContent = chord + "  (" + item.degree + ")";
+
+    const description = document.createElement("div");
+    description.className = "borrowed-description";
+    description.textContent = item.description;
+
+    const notes = document.createElement("div");
+    notes.className = "borrowed-notes";
+    notes.textContent =
+      "Notes: " +
+      [pitch, third, fifth].map(p => names[p]).join(" – ");
+
+    card.append(title, description, notes);
+    container.appendChild(card);
+  });
+}
+
+borrowedButton.addEventListener("click", () => {
+  const isHidden = borrowedSection.hidden;
+
+  borrowedSection.hidden = !isHidden;
+
+  borrowedButton.textContent = isHidden
+    ? "Hide Borrowed Chords"
+    : "Explore Borrowed Chords";
+
+  if (isHidden) getBorrowedChords();
+});
+
+document.getElementById("key").addEventListener("change", () => {
+  if (!borrowedSection.hidden) getBorrowedChords();
+});
+
+document.getElementById("scale").addEventListener("change", () => {
+  if (!borrowedSection.hidden) getBorrowedChords();
+});
   </script>
 </body>
 </html>
