@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17191d">
+  <title>Chord Finder</title>
+
+  <style>
+    #progressionSection {
+  margin-top: 40px;
+}
+
+#progressionSection h2 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.progression-subtitle {
+  color: #a0a5b0;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.progression-card {
+  background: #30343d;
+  border: 1px solid #424750;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.progression-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.progression-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.progression-degrees {
+  color: #a0a5b0;
+  font-size: 12px;
+}
+
+.progression-chords {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.progression-chord {
+  background: #414957;
+  border-radius: 9px;
+  padding: 13px 3px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+}
+    .chord {
+  cursor: pointer;
+}
+
+.chord:hover,
+.chord:focus-visible {
+  background: #414957;
+  border-color: #80b8ff;
+}
+
+.chord.selected {
+  border-color: #80b8ff;
+  background: #34445b;
+}
+
+.details {
+  margin-top: 25px;
+  padding: 22px;
+  background: #292d35;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.details[hidden] {
+  display: none;
+}
+
+.note-list {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.note {
+  flex: 1;
+  max-width: 120px;
+  background: #414957;
+  padding: 16px 8px;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.note small {
+  display: block;
+  color: #b7bac3;
+  font-size: 11px;
+  margin-top: 6px;
+  font-weight: normal;
+}
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #17191d;
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 650px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    header { text-align: center; margin-bottom: 35px; }
+    h1 { font-size: 32px; margin-bottom: 8px; }
+    .subtitle { color: #a0a5b0; font-size: 15px; }
+
+    .selectors { display: flex; gap: 12px; }
+    .field { flex: 1; min-width: 0; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #b7bac3;
+      font-size: 13px;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      background: #30343d;
+      color: white;
+      border: 1px solid #454b55;
+      border-radius: 10px;
+      font-size: 17px;
+    }
+
+    .section-title {
+      margin: 32px 0 15px;
+      color: #a0a5b0;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    #chords {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chord {
+      background: #30343d;
+      border: 1px solid #424750;
+      border-radius: 14px;
+      padding: 22px 5px;
+      text-align: center;
+    }
+
+    .chord-name { font-size: 25px; font-weight: 700; }
+    .degree { color: #a0a5b0; margin-top: 7px; font-size: 13px; }
+
+    @media (max-width: 360px) {
+      .app { padding: 25px 14px; }
+      #chords { gap: 8px; }
+      .chord-name { font-size: 21px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header>
+      <h1>🎸 Chord Finder</h1>
+      <div class="subtitle">Explore the chords in any key</div>
+    </header>
+
+    <div class="selectors">
+      <div class="field">
+        <label for="key">KEY</label>
+        <select id="key">
+          <option>C</option><option>C#</option>
+          <option>D</option><option>Eb</option>
+          <option>E</option><option>F</option>
+          <option>F#</option><option>G</option>
+          <option>Ab</option><option>A</option>
+          <option>Bb</option><option>B</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="scale">SCALE</label>
+        <select id="scale">
+          <option value="major">Major</option>
+          <option value="minor">Natural Minor</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title" id="sectionTitle"></div>
+    <div id="chords"></div>
+    <div id="chordDetails" class="details" hidden></div>
+    <section id="progressionSection">
+  <h2>Chord Progressions</h2>
+  <p class="progression-subtitle">
+    Common progressions for songwriting
+  </p>
+  <div id="progressions"></div>
+</section>
+  </main>
+
+  <script>
+    const chromatic = [
+      "C","C#","D","D#","E","F",
+      "F#","G","G#","A","A#","B"
+    ];
+
+    const roots = {
+      C:0, "C#":1, D:2, Eb:3, E:4, F:5,
+      "F#":6, G:7, Ab:8, A:9, Bb:10, B:11
+    };
+
+    const letterNames = ["C","D","E","F","G","A","B"];
+
+    const majorSteps = [0,2,4,5,7,9,11];
+    const minorSteps = [0,2,3,5,7,8,10];
+
+    const majorQuality = ["","m","m","","","m","dim"];
+    const minorQuality = ["m","dim","","m","m","",""];
+
+    const majorDegrees = ["I","ii","iii","IV","V","vi","vii°"];
+    const minorDegrees = ["i","ii°","III","iv","v","VI","VII"];
+    const progressionLibrary = {
+  major: [
+    {
+      name: "Classic Pop",
+      degrees: "I – V – vi – IV",
+      indexes: [0, 4, 5, 3]
+    },
+    {
+      name: "Classic Rock",
+      degrees: "I – IV – V – I",
+      indexes: [0, 3, 4, 0]
+    },
+    {
+      name: "Emotional / Alternative",
+      degrees: "vi – IV – I – V",
+      indexes: [5, 3, 0, 4]
+    },
+    {
+      name: "50s Progression",
+      degrees: "I – vi – IV – V",
+      indexes: [0, 5, 3, 4]
+    },
+    {
+      name: "Folk / Country",
+      degrees: "I – IV – I – V",
+      indexes: [0, 3, 0, 4]
+    }
+  ],
+
+  minor: [
+    {
+      name: "Dark / Alternative",
+      degrees: "i – VI – III – VII",
+      indexes: [0, 5, 2, 6]
+    },
+    {
+      name: "Minor Rock",
+      degrees: "i – iv – VII – i",
+      indexes: [0, 3, 6, 0]
+    },
+    {
+      name: "Atmospheric",
+      degrees: "i – III – VII – VI",
+      indexes: [0, 2, 6, 5]
+    },
+    {
+      name: "Minor Folk",
+      degrees: "i – VII – VI – VII",
+      indexes: [0, 6, 5, 6]
+    },
+    {
+      name: "Minor Blues-Inspired",
+      degrees: "i – iv – i – v",
+      indexes: [0, 3, 0, 4]
+    }
+  ]
+};
+
+    function noteName(letter, pitch) {
+      const natural = roots[letter];
+      let difference = (pitch - natural + 12) % 12;
+
+      if (difference > 6) difference -= 12;
+
+      const accidentals = {
+        "-2":"bb", "-1":"b", "0":"",
+        "1":"#", "2":"##"
+      };
+
+      return letter + (accidentals[difference] ?? "?");
+    }
+
+    function getChords() {
+      const key = document.getElementById("key").value;
+      const mode = document.getElementById("scale").value;
+      const intervals = mode === "major" ? majorSteps : minorSteps;
+      const qualities = mode === "major" ? majorQuality : minorQuality;
+      const degrees = mode === "major" ? majorDegrees : minorDegrees;
+
+      const rootLetter = key[0];
+      const rootLetterIndex = letterNames.indexOf(rootLetter);
+      const rootPitch = roots[key];
+
+      document.getElementById("sectionTitle").textContent =
+        key + " " + (mode === "major" ? "MAJOR" : "NATURAL MINOR")
+        + " · DIATONIC TRIADS";
+
+      const container = document.getElementById("chords");
+      container.replaceChildren();
+      const details = document.getElementById("chordDetails");
+        details.hidden = true;
+        details.replaceChildren();
+
+      for (let i = 0; i < 7; i++) {
+        const letter = letterNames[(rootLetterIndex + i) % 7];
+        const pitch = (rootPitch + intervals[i]) % 12;
+        const chord = noteName(letter, pitch) + qualities[i];
+
+        const card = document.createElement("div");
+        card.className = "chord";
+        card.setAttribute("role", "button");
+card.tabIndex = 0;
+
+function selectChord() {
+  document.querySelectorAll(".chord").forEach(c => {
+    c.classList.remove("selected");
+  });
+
+  card.classList.add("selected");
+
+  const thirdStep = qualities[i] === "dim" || qualities[i] === "m" ? 3 : 4;
+  const fifthStep = qualities[i] === "dim" ? 6 : 7;
+
+  const chordNotes = [
+    { pitch: pitch, label: "Root", letterOffset: 0 },
+    { pitch: (pitch + thirdStep) % 12, label: thirdStep === 3 ? "Minor 3rd" : "Major 3rd", letterOffset: 2 },
+    { pitch: (pitch + fifthStep) % 12, label: fifthStep === 6 ? "Diminished 5th" : "Perfect 5th", letterOffset: 4 }
+  ];
+
+  const noteHTML = chordNotes.map(n => {
+    const noteLetter = letterNames[
+      (rootLetterIndex + i + n.letterOffset) % 7
+    ];
+    return `
+      <div class="note">
+        ${noteName(noteLetter, n.pitch)}
+        <small>${n.label}</small>
+      </div>
+    `;
+  }).join("");
+
+  details.innerHTML = `
+    <h2>${chord}</h2>
+    <div class="note-list">${noteHTML}</div>
+  `;
+
+  details.hidden = false;
+}
+
+card.addEventListener("click", selectChord);
+
+card.addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    selectChord();
+  }
+});
+
+        const name = document.createElement("div");
+        name.className = "chord-name";
+        name.textContent = chord;
+
+        const degree = document.createElement("div");
+        degree.className = "degree";
+        degree.textContent = degrees[i];
+
+        card.append(name, degree);
+        container.appendChild(card);
+      }
+      const progressionContainer =
+  document.getElementById("progressions");
+
+progressionContainer.replaceChildren();
+
+const chordNames = [];
+
+for (let i = 0; i < 7; i++) {
+  const letter = letterNames[(rootLetterIndex + i) % 7];
+  const pitch = (rootPitch + intervals[i]) % 12;
+
+  chordNames.push(
+    noteName(letter, pitch) + qualities[i]
+  );
+}
+
+const selectedProgressions = progressionLibrary[mode];
+
+selectedProgressions.forEach(progression => {
+  const card = document.createElement("div");
+  card.className = "progression-card";
+
+  const heading = document.createElement("div");
+  heading.className = "progression-heading";
+
+  const name = document.createElement("div");
+  name.className = "progression-name";
+  name.textContent = progression.name;
+
+  const degrees = document.createElement("div");
+  degrees.className = "progression-degrees";
+  degrees.textContent = progression.degrees;
+
+  heading.append(name, degrees);
+
+  const chordRow = document.createElement("div");
+  chordRow.className = "progression-chords";
+
+  progression.indexes.forEach(index => {
+    const chord = document.createElement("div");
+    chord.className = "progression-chord";
+    chord.textContent = chordNames[index];
+
+    chordRow.appendChild(chord);
+  });
+
+  card.append(heading, chordRow);
+  progressionContainer.appendChild(card);
+});
+    }
+
+    document.getElementById("key").addEventListener("change", getChords);
+    document.getElementById("scale").addEventListener("change", getChords);
+    getChords();
+  </script>
+</body>
+</html>
