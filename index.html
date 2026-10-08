@@ -288,6 +288,78 @@
 .explorer-category { font-size:11px; letter-spacing:.3px; color:#a8d2ff; text-transform:uppercase; }
 @media(max-width:390px) { .explorer-grid {grid-template-columns:1fr;} }
 
+
+/* Version 1.9 — flexible progression builder */
+.builder { margin-top:34px; padding:20px; background:#292d35; border:1px solid #424750; border-radius:15px; }
+.builder h2 { margin:0 0 7px; font-size:22px; }
+.builder p { color:#b7bac3; font-size:13px; line-height:1.5; }
+.builder-row { display:flex; gap:9px; align-items:end; margin-top:14px; flex-wrap:wrap; }
+.builder-row .field { min-width:125px; }
+.builder-row select { font-size:15px; padding:12px; }
+.builder-btn { background:#405a76; color:white; border:1px solid #6687a8; border-radius:9px; padding:12px; font-size:14px; cursor:pointer; }
+.builder-btn:disabled { opacity:.35; cursor:default; }
+.builder-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; margin:16px 0; }
+.builder-tile { border:1px solid #485464; border-radius:11px; background:#373d47; padding:10px 7px; text-align:center; min-width:0; }
+.builder-tile strong { display:block; font-size:21px; overflow-wrap:anywhere; }
+.builder-tile small { display:block; color:#b7bac3; margin:5px 0 10px; }
+.builder-controls { display:flex; justify-content:center; gap:5px; }
+.builder-controls button { padding:6px 9px; border:1px solid #626c7a; background:#444e5e; border-radius:7px; color:white; cursor:pointer; }
+.builder-controls button:disabled { opacity:.3; }
+.builder-empty { border:1px dashed #586271; border-radius:10px; padding:22px 10px; text-align:center; color:#aeb7c6; margin-top:15px; }
+.builder-actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:14px; }
+.builder-status { color:#a8d2ff!important; min-height:1.2em; }
+.saved-panel { border-top:1px solid #536072; margin-top:22px; padding-top:16px; }
+.saved-panel h3 { margin:0 0 8px; }
+.saved-panel input[type=text] { color:white; background:#282e39; border:1px solid #65768b; border-radius:8px; padding:12px; font-size:16px; width:min(300px,75vw); }
+.saved-list { display:grid; gap:9px; margin-top:14px; }
+.saved-item { background:#323b48; border:1px solid #58697d; border-radius:10px; padding:12px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.saved-item .saved-meta { font-size:13px; color:#b9c8d9; margin-top:4px; overflow-wrap:anywhere; }
+.saved-item .saved-buttons { display:flex; gap:7px; flex-wrap:wrap; }
+.saved-item button { background:#405a76; border:1px solid #6687a8; border-radius:8px; padding:9px 12px; color:white; cursor:pointer; }
+
+.progression-card[role="button"], .borrowed-example[role="button"] { cursor:pointer; }
+.progression-card[role="button"]:hover, .borrowed-example[role="button"]:hover { border-color:#80b8ff; background:#34445b; }
+.progression-card[role="button"]:focus-visible, .borrowed-example[role="button"]:focus-visible { outline:3px solid #80b8ff; outline-offset:3px; }
+.borrowed-example[role="button"] { border:1px solid transparent; border-radius:10px; padding:15px 8px 8px; margin-left:-8px; margin-right:-8px; }
+.load-hint { color:#a8d2ff; font-size:12px; margin-top:10px; }
+
+  .screen-tabs{display:flex;gap:10px;margin:18px 0 24px}
+  .screen-tab{flex:1;padding:13px 8px;border-radius:11px;background:#313c4b;border:1px solid #62748a;color:#dce8f7;font-weight:700;font-size:15px;cursor:pointer}
+  .screen-tab.selected{background:#476b93;border-color:#91bbef;color:#fff}
+  [hidden]{display:none!important}
+  #songScreen h2{margin-top:0}
+  .song-fields,.song-add{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:16px 0}
+  .song-fields label,.song-add label{display:grid;gap:6px;font-size:12px;font-weight:700;color:#b9cbe0}
+  .song-fields input,.song-add select{background:#282e39;color:white;border:1px solid #65768b;border-radius:8px;padding:11px;font-size:16px;max-width:100%;min-width:145px}
+  .song-fields #songTempo{min-width:75px;width:100px}
+  .song-sections{display:grid;gap:12px;margin:20px 0}
+  .song-section{padding:15px;border:1px solid #5c7088;border-radius:12px;background:#303a49}
+  .song-section.playing{border-color:#8cd8aa;background:#31503e}
+  .song-section-head{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .song-section .saved-meta{color:#c4d3e4;margin:9px 0;overflow-wrap:anywhere}
+  .song-section-controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+  .song-section-controls button,.song-section-controls input{border:1px solid #6e88a5;border-radius:7px;background:#405a76;color:white;padding:8px;font-size:14px}
+  .song-section-controls input{width:58px}
+  .song-section-controls button:disabled{opacity:.35}
+  .song-empty{border:1px dashed #61768c;border-radius:12px;padding:22px;text-align:center;color:#b7c9dc}
+  .chord-beats{display:flex;gap:5px;justify-content:center;align-items:center;font-size:12px;color:#d6e4f2;margin:8px 0}
+  .chord-beats select{background:#27384a;color:#fff;border:1px solid #8194a9;border-radius:6px;padding:6px;font-size:14px}
+  .song-chord-editor{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .song-chord{border:1px solid #6a8098;border-radius:8px;padding:9px 11px;background:#263547;min-width:95px;text-align:center}
+  .song-chord strong{display:block}
+  #playMeter,#songMeter{background:#283748;color:white;border:1px solid #778da4;border-radius:7px;padding:9px;font-size:15px}
+  .timeline-wrap{margin:14px 0 20px;padding:14px;background:#202b38;border:1px solid #566a80;border-radius:12px}
+  .timeline-heading{font-size:12px;letter-spacing:.07em;font-weight:750;color:#c9d8e9;margin-bottom:12px}
+  .timeline-bar{margin:10px 0 15px}
+  .timeline-bar-title{font-size:12px;color:#c6d8e8;margin-bottom:5px;font-weight:650}
+  .timeline-grid{display:grid;gap:2px}
+  .timeline-cell{background:hsl(var(--chord-hue,210) 32% 35%);border:1px solid #506a83;border-radius:4px;min-width:0;min-height:44px;text-align:center;padding:5px 1px;display:flex;flex-direction:column;justify-content:space-between;align-items:center}
+  .timeline-cell.strong-beat{border-left:3px solid #d5e4f4}
+  .timeline-cell.empty{background:#313b48;opacity:.5}
+  .timeline-cell span{color:#fff;font-size:clamp(9px,2vw,12px);font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .timeline-cell small{color:#d6e5f4;font-size:10px}
+  .timeline-cell.current-tick{outline:3px solid #ffce64;outline-offset:-2px;filter:brightness(1.4)}
+  .timeline-total{font-size:12px;color:#b8cce0;margin:6px 0 0}
   </style>
 </head>
 
@@ -298,7 +370,12 @@
       <div class="subtitle">Explore the chords in any key</div>
     </header>
 
-    <div class="selectors">
+    <nav class="screen-tabs" aria-label="App screens">
+<button type="button" id="explorerTab" class="screen-tab selected" aria-current="page">🎸 Chord Explorer</button>
+<button type="button" id="songTab" class="screen-tab">🎼 Song Builder</button>
+</nav>
+<div id="explorerScreen">
+<div class="selectors">
       <div class="field">
         <label for="key">KEY</label>
         <select id="key">
@@ -326,7 +403,7 @@
     <section id="progressionSection">
   <h2>Chord Progressions</h2>
   <p class="progression-subtitle">
-    Common progressions for songwriting
+    Common progressions for songwriting · Tap a progression to load it into the builder
   </p>
   <div id="progressions"></div>
   <button id="borrowedButton" type="button">
@@ -336,10 +413,80 @@
 <section id="borrowedSection" hidden>
   <h2>Borrowed Chords</h2>
   <p class="progression-subtitle">
-    Discover new colours outside your key
+    Discover new colours outside your key · Tap a progression to load it into the builder
   </p>
   <div id="borrowedChords"></div>
 </section>
+</section>
+
+<section id="builderSection" class="builder" aria-labelledby="builderTitle">
+  <h2 id="builderTitle">Progression Builder</h2>
+  <p>Create a progression of any length. Add diatonic chords, borrowed chords, extensions or suggested substitutions. Use the arrows to change the order.</p>
+  <div id="builderList" class="builder-list" aria-live="polite"></div><div id="explorerTimeline" class="timeline-wrap" aria-label="Progression beat timeline"></div>
+  <div class="builder-row">
+    <div class="field"><label for="builderCategory">CHORD TYPE</label><select id="builderCategory"><option value="diatonic">Diatonic</option><option value="borrowed">Borrowed</option><option value="extensions">Extensions</option><option value="substitutions">Substitutions</option></select></div>
+    <div class="field"><label for="builderBase">CHORD / DEGREE</label><select id="builderBase"></select></div>
+    <div class="field" id="builderVariationField" hidden><label for="builderVariation">VARIATION</label><select id="builderVariation"></select></div>
+    <button type="button" class="builder-btn" id="builderAdd">+ Add chord</button>
+  </div>
+  <div class="playback-panel" aria-label="Progression playback">
+    <div class="playback-heading">Hear your progression</div>
+    <div class="playback-controls">
+      <button type="button" class="builder-btn" id="playProgression">▶ Play</button>
+      <button type="button" class="builder-btn" id="stopProgression" disabled>■ Stop</button>
+      <label class="playback-tempo" for="playTempo">Tempo <input id="playTempo" type="number" min="40" max="220" value="100" step="5" inputmode="numeric"> BPM</label>
+      <label class="playback-tempo" for="playMeter">Time signature <select id="playMeter"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="7/8">7/8</option></select></label>
+      <label class="playback-loop"><input id="playLoop" type="checkbox"> Loop</label>
+    </div>
+    <p class="playback-help">Piano-inspired sound. Set each chord’s duration in beats. In 6/8 and 7/8, beats mean eighth notes; BPM counts dotted-quarter beats in 6/8 and quarter notes in 7/8. Hear a gentle accented pulse.</p>
+    <p class="playback-status" id="playbackStatus" role="status" aria-live="polite">Ready to play</p>
+  </div>
+  <div class="builder-actions"><button type="button" class="builder-btn" id="builderUndo">Undo last</button><button type="button" class="builder-btn" id="builderClear">Clear progression</button></div>
+  <p class="builder-status" id="builderStatus" role="status"></p>
+  <section class="saved-panel" aria-labelledby="savedTitle">
+    <h3 id="savedTitle">Saved Progressions</h3>
+    <p>Name and save your chord ideas. They're stored in this browser on this device.</p>
+    <div class="builder-row">
+      <div class="field"><label for="progressionName">PROGRESSION NAME</label><input id="progressionName" type="text" maxlength="80" placeholder="e.g. Dreamy Verse"></div>
+      <button type="button" class="builder-btn" id="saveProgression">Save progression</button>
+    </div>
+    <div id="savedProgressions" class="saved-list"></div>
+    <p id="saveStatus" class="builder-status" role="status" aria-live="polite"></p>
+  </section>
+  <p>Changing the key or scale starts a new progression. Saved progressions can be reloaded later.</p>
+</section>
+</div>
+<section id="songScreen" hidden aria-labelledby="songScreenTitle">
+<h2 id="songScreenTitle">Song Builder</h2>
+<p>Arrange your saved progressions into a complete song. Each section keeps its own chord sequence, even if you later edit the original saved progression.</p>
+<div class="song-fields">
+<label>SONG TITLE <input id="songTitle" maxlength="100" placeholder="Untitled Song"></label>
+<label>BPM <input id="songTempo" type="number" min="40" max="220" value="100"></label>
+<label>TIME SIGNATURE <select id="songMeter"><option value="4/4">4/4</option><option value="3/4">3/4</option><option value="6/8">6/8</option><option value="7/8">7/8</option></select></label>
+</div>
+<div class="song-add">
+<label>SECTION <select id="songSectionType"><option>Intro</option><option>Verse</option><option>Pre-Chorus</option><option>Chorus</option><option>Bridge</option><option>Solo</option><option>Outro</option><option>Other</option></select></label>
+<label>SAVED PROGRESSION <select id="songProgression"></select></label>
+<button type="button" id="addSongSection" class="builder-btn">+ Add section</button>
+</div>
+<div id="songSections" class="song-sections"></div>
+<div class="playback-panel">
+<div class="playback-heading">Play your song</div>
+<div class="playback-controls">
+<button id="songPlay" class="builder-btn" type="button">▶ Play song</button>
+<button id="songStop" class="builder-btn" type="button" disabled>■ Stop</button>
+<label class="playback-loop"><input id="songLoop" type="checkbox"> Loop song</label>
+</div>
+<p class="playback-help">Piano-inspired playback · adjustable beats per chord · 6/8 and 7/8 durations use eighth notes · accents follow the selected meter.</p>
+<p id="songStatus" class="playback-status" role="status" aria-live="polite">Ready to arrange</p>
+</div>
+<div class="builder-actions">
+<button type="button" id="saveSong" class="builder-btn">Save song</button>
+<button type="button" id="newSong" class="builder-btn">New song</button>
+</div>
+<h3>Saved Songs</h3>
+<div id="savedSongs" class="saved-list"></div>
+<p class="builder-status">Songs and progressions are saved only in this browser on this device. They do not sync automatically to your phone.</p>
 </section>
   </main>
 
@@ -573,12 +720,18 @@ selectedProgressions.forEach(progression => {
   });
 
   card.append(heading, chordRow);
+  const loadHint=document.createElement('div');
+  loadHint.className='load-hint';
+  loadHint.textContent='Tap to use in Progression Builder ↗';
+  card.appendChild(loadHint);
+  makeProgressionLoadable(card, () => progression.indexes.map(index => ({
+    name:chordNames[index], degree:(mode==='major'?majorDegrees:minorDegrees)[index]
+  })), progression.name);
   progressionContainer.appendChild(card);
 });
     }
 
-    document.getElementById("key").addEventListener("change", getChords);
-    document.getElementById("scale").addEventListener("change", getChords);
+    // Key/scale refresh listeners are installed after all sections initialize.
     getChords();
     const borrowedButton = document.getElementById("borrowedButton");
 const borrowedSection = document.getElementById("borrowedSection");
@@ -768,6 +921,13 @@ exampleSection.append(
   progressionRow,
   explanation
 );
+const loadHint=document.createElement('div');
+loadHint.className='load-hint';
+loadHint.textContent='Tap to use in Progression Builder ↗';
+exampleSection.appendChild(loadHint);
+makeProgressionLoadable(exampleSection, () => example.progression.map(degree => ({
+  name:chordLookup[degree] || '?', degree
+})), 'Borrowed progression ' + (itemIndex+1));
 
 card.appendChild(exampleSection);
 container.appendChild(card);
@@ -786,13 +946,7 @@ borrowedButton.addEventListener("click", () => {
   if (isHidden) getBorrowedChords();
 });
 
-document.getElementById("key").addEventListener("change", () => {
-  if (!borrowedSection.hidden) getBorrowedChords();
-});
 
-document.getElementById("scale").addEventListener("change", () => {
-  if (!borrowedSection.hidden) getBorrowedChords();
-});
 
 // Version 1.8: spell notes by their letter and pitch, including extensions.
 function spelledNote(letterIndex, pitch) {
@@ -934,6 +1088,754 @@ function renderChordExplorer(details, info) {
   });
   details.append(actions,panel);
 }
+
+
+// Version 1.9 — progression builder. Items retain their displayed names and functional labels.
+const builderState = [];
+const builderCategory = document.getElementById('builderCategory');
+const builderBase = document.getElementById('builderBase');
+const builderVariation = document.getElementById('builderVariation');
+const builderVariationField = document.getElementById('builderVariationField');
+const builderList = document.getElementById('builderList');
+const builderStatus = document.getElementById('builderStatus');
+// A progression replaces the builder only after confirmation if it contains chords.
+function loadProgressionIntoBuilder(items,label) {
+  if (items.some(item => !item.name || item.name === '?')) {
+    window.alert('This progression contains an unresolved chord. Please choose another.');
+    return;
+  }
+  if (builderState.length && !window.confirm(
+    'Load "' + label + '"?\\n\\nThis will erase the ' + builderState.length +
+    ' chord(s) currently in your Progression Builder.\\n\\nPress Cancel to keep your work.'
+  )) return;
+  builderState.splice(0,builderState.length,...items);
+  renderBuilder();
+  builderStatus.textContent = 'Loaded ' + label + ' · ' + items.length + ' chords';
+  document.getElementById('builderSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function makeProgressionLoadable(element,getItems,label) {
+  element.setAttribute('role','button');
+  element.setAttribute('tabindex','0');
+  element.setAttribute('aria-label','Load ' + label + ' into Progression Builder');
+  const activate=()=>loadProgressionIntoBuilder(getItems(),label);
+  element.addEventListener('click',activate);
+  element.addEventListener('keydown',event=>{
+    if(event.key==='Enter'||event.key===' ') {
+      event.preventDefault(); activate();
+    }
+  });
+}
+function builderContext() {
+  const key = document.getElementById('key').value;
+  const mode = document.getElementById('scale').value;
+  const keyRootLetterIndex = letterNames.indexOf(key[0]);
+  const steps = mode === 'major' ? majorSteps : minorSteps;
+  const qualities = mode === 'major' ? majorQuality : minorQuality;
+  const degrees = mode === 'major' ? majorDegrees : minorDegrees;
+  const diatonic = steps.map((step,i) => {
+    const rootPitch = (roots[key] + step) % 12;
+    const rootLetterIndex = (keyRootLetterIndex + i) % 7;
+    const rootName = spelledNote(rootLetterIndex,rootPitch);
+    return {name:rootName + qualities[i], degree:degrees[i], rootName, rootPitch,
+      rootLetterIndex, keyRootLetterIndex, quality:qualities[i], degreeIndex:i, key, mode,
+      chord:rootName + qualities[i]};
+  });
+  const borrowed = borrowedLibrary[mode].map(item => {
+    const rootPitch = (roots[key] + item.offset) % 12;
+    // Borrowed roots: iv/IV is degree 4, bVI degree 6, bVII degree 7, bIII degree 3.
+    const degreeIndex = ({iv:3,IV:3,bVI:5,bVII:6,bIII:2,I:0,ii:1})[item.degree];
+    const rootLetterIndex = (keyRootLetterIndex + degreeIndex) % 7;
+    const rootName = spelledNote(rootLetterIndex,rootPitch);
+    return {name:rootName+item.quality,degree:item.degree};
+  });
+  return {diatonic,borrowed};
+}
+function fillBuilderSelect(select,items) {
+  select.replaceChildren();
+  items.forEach((item,i)=>{
+    const option=document.createElement('option'); option.value=String(i);
+    option.textContent=item.name + ' · ' + item.degree;
+    select.appendChild(option);
+  });
+}
+function builderOptions() {
+  const context=builderContext();
+  const category=builderCategory.value;
+  if (category==='diatonic') return context.diatonic;
+  if (category==='borrowed') return context.borrowed;
+  return context.diatonic;
+}
+function updateBuilderVariations() {
+  const category=builderCategory.value;
+  const base=builderOptions()[Number(builderBase.value)];
+  const isVariation=category==='extensions'||category==='substitutions';
+  builderVariationField.hidden=!isVariation;
+  builderVariation.replaceChildren();
+  if (!isVariation||!base) return;
+  const variants=category==='extensions' ? extensionChoices(base) : substitutionsFor(base);
+  variants.forEach((variant,i)=>{
+    const option=document.createElement('option'); option.value=String(i);
+    option.textContent=variant.name+' · '+(variant.type||'variation');
+    builderVariation.appendChild(option);
+  });
+  document.getElementById('builderAdd').disabled=!variants.length;
+}
+function updateBuilderChoices() {
+  fillBuilderSelect(builderBase,builderOptions());
+  document.getElementById('builderAdd').disabled=false;
+  updateBuilderVariations();
+}
+const VALID_METERS=['4/4','3/4','6/8','7/8'];
+function normalizedMeter(value){return VALID_METERS.includes(value)?value:'4/4';}
+function pulseSeconds(tempo,meter){return (60/tempo)*(meter==='6/8'?1/3:meter==='7/8'?1/2:1);}
+function meterCycle(meter){return meter==='3/4'?3:meter==='6/8'?6:meter==='7/8'?7:4;}
+function pulseAccent(meter,pulse){
+  const p=pulse%meterCycle(meter);
+  if(p===0)return 1;
+  if(meter==='6/8'&&p===3)return .55;
+  if(meter==='7/8'&&(p===2||p===4))return .5;
+  return .22;
+}
+// Schedule a light metronome accent on the Web Audio clock, keeping its voices stoppable.
+function soundPulse(at,accent){
+  if(!audioContext)return;
+  const osc=audioContext.createOscillator(),gain=audioContext.createGain();
+  osc.type='sine';osc.frequency.value=accent===1?1200:accent>=.5?900:620;
+  gain.gain.setValueAtTime(.0001,at);
+  gain.gain.exponentialRampToValueAtTime(.018*accent,at+.004);
+  gain.gain.exponentialRampToValueAtTime(.0001,at+.055);
+  osc.connect(gain).connect(audioContext.destination);
+  osc.start(at);osc.stop(at+.065);
+  const voice={oscs:[{osc,harmonicGain:gain}],output:gain,lowpass:null};
+  activeVoices.push(voice);
+  osc.onended=()=>{const i=activeVoices.indexOf(voice);if(i!==-1)activeVoices.splice(i,1);try{osc.disconnect();gain.disconnect();}catch(e){}};
+}
+function schedulePulses(count,pulseSecondsValue,startPulse){
+  const start=audioContext.currentTime;
+  const grid=gridUnit(currentPlaybackMeter);
+  for(let n=0;n<Math.round(count/grid);n++){
+    const position=startPulse+n*grid;
+    if(Math.abs(position-Math.round(position))<.00001)
+      soundPulse(start+n*grid*pulseSecondsValue,pulseAccent(currentPlaybackMeter,Math.round(position)));
+  }
+}
+let currentPlaybackMeter='4/4';
+function beatsFor(chord) {
+  const n=Number(chord.beats);
+  return Number.isFinite(n)&&n>=.5&&n<=16?n:2;
+}
+function makeBeatSelector(chord,onChange) {
+  const label=document.createElement('label');
+  label.className='chord-beats';
+  label.textContent='Beats ';
+  const select=document.createElement('select');
+  select.setAttribute('aria-label','Beats for '+chord.name);
+  [.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,12,16].forEach(n=>select.add(new Option(String(n),String(n))));
+  select.value=String(beatsFor(chord));
+  select.addEventListener('change',()=>onChange(Number(select.value)));
+  label.appendChild(select);
+  return label;
+}
+function renderBuilder() {
+  builderList.replaceChildren();
+  if (!builderState.length) {
+    const empty=document.createElement('div'); empty.className='builder-empty';
+    empty.textContent='Your progression is empty. Choose a chord below to begin.';
+    empty.style.gridColumn='1 / -1'; builderList.appendChild(empty);
+  }
+  builderState.forEach((item,index)=>{
+    const tile=document.createElement('div'); tile.className='builder-tile';
+    const number=document.createElement('small'); number.textContent=String(index+1);
+    const name=document.createElement('strong'); name.textContent=item.name;
+    const degree=document.createElement('small'); degree.textContent=item.degree;
+    const controls=document.createElement('div'); controls.className='builder-controls';
+    [['←','Move left',-1],['→','Move right',1],['×','Remove chord',0]].forEach(([symbol,label,move])=>{
+      const button=document.createElement('button');button.type='button';button.textContent=symbol;
+      button.setAttribute('aria-label',label+' '+item.name+' at position '+(index+1));
+      button.disabled=(move===-1&&index===0)||(move===1&&index===builderState.length-1);
+      button.addEventListener('click',()=>{
+        if (move===0) builderState.splice(index,1);
+        else {const other=index+move;[builderState[index],builderState[other]]=[builderState[other],builderState[index]];}
+        renderBuilder();
+      });
+      controls.appendChild(button);
+    });
+    const beatControl=makeBeatSelector(item,beats=>{
+      item.beats=beats;
+      renderTimeline(document.getElementById("explorerTimeline"),builderState,document.getElementById("playMeter").value,"explorer");
+      if(playbackActive)stopPlayback('Chord timing changed — ready to play');
+    });
+    tile.append(number,name,degree,beatControl,controls);builderList.appendChild(tile);
+  });
+  renderTimeline(document.getElementById("explorerTimeline"),builderState,document.getElementById("playMeter").value,"explorer");
+  document.getElementById('builderUndo').disabled=!builderState.length;
+  document.getElementById('builderClear').disabled=!builderState.length;
+  builderStatus.textContent=builderState.length+' chord'+(builderState.length===1?'':'s')+' in progression';
+}
+builderCategory.addEventListener('change',updateBuilderChoices);
+builderBase.addEventListener('change',updateBuilderVariations);
+document.getElementById('builderAdd').addEventListener('click',()=>{
+  const base=builderOptions()[Number(builderBase.value)]; if (!base) return;
+  const category=builderCategory.value;
+  let item={name:base.name,degree:base.degree};
+  if (category==='extensions'||category==='substitutions') {
+    const variants=category==='extensions'?extensionChoices(base):substitutionsFor(base);
+    const selected=variants[Number(builderVariation.value)]; if (!selected) return;
+    item={name:selected.name,degree:category==='extensions'?base.degree+' (ext.)':base.degree+' (alt.)'};
+  }
+  builderState.push(item);renderBuilder();
+});
+document.getElementById('builderUndo').addEventListener('click',()=>{builderState.pop();renderBuilder();});
+document.getElementById('builderClear').addEventListener('click',()=>{builderState.length=0;renderBuilder();});
+
+// Version 1.9.1 — offline chord playback using Web Audio (no downloaded samples).
+let audioContext=null;
+let playbackTimer=null;
+let activeVoices=[];
+let playbackGeneration=0;
+let playbackActive=false;
+const playbackStatus=document.getElementById('playbackStatus');
+const playButton=document.getElementById('playProgression');
+const stopButton=document.getElementById('stopProgression');
+function pitchClass(note) {
+  const m=/^([A-G])([#b]{0,2})$/.exec(note);
+  if (!m) return null;
+  const naturals={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+  let p=naturals[m[1]];
+  for(const accidental of m[2]) p+=accidental==='#'?1:-1;
+  return (p%12+12)%12;
+}
+function chordPitches(name) {
+  const m=/^([A-G](?:#{1,2}|b{1,2})?)(.*)$/.exec(name.trim());
+  if(!m) return null;
+  const root=pitchClass(m[1]);
+  if(root===null) return null;
+  const suffix=m[2];
+  let intervals;
+  if(suffix==='dim'||suffix==='°') intervals=[0,3,6];
+  else if(suffix==='m7b5'||suffix==='ø7') intervals=[0,3,6,10];
+  else if(suffix==='dim7'||suffix==='°7') intervals=[0,3,6,9];
+  else if(suffix==='maj7'||suffix==='M7'||suffix==='Δ7') intervals=[0,4,7,11];
+  else if(suffix==='mMaj7'||suffix==='m(maj7)') intervals=[0,3,7,11];
+  else if(suffix==='m7') intervals=[0,3,7,10];
+  else if(suffix==='7') intervals=[0,4,7,10];
+  else if(suffix==='9') intervals=[0,4,7,10,14];
+  else if(suffix==='maj9') intervals=[0,4,7,11,14];
+  else if(suffix==='m9') intervals=[0,3,7,10,14];
+  else if(suffix==='add9') intervals=[0,4,7,14];
+  else if(suffix==='madd9') intervals=[0,3,7,14];
+  else if(suffix==='sus2') intervals=[0,2,7];
+  else if(suffix==='sus4') intervals=[0,5,7];
+  else if(suffix==='7sus4') intervals=[0,5,7,10];
+  else if(suffix==='m') intervals=[0,3,7];
+  else if(suffix==='') intervals=[0,4,7];
+  else return null; // Don't play an incorrect chord if its spelling is unknown.
+  return intervals.map((interval,index)=>{
+    // MIDI note 48 = C3. Keep bass root lower, other notes in a comfortable register.
+    const base=index===0?48:60;
+    return base+root+interval;
+  });
+}
+function stopPlayback(message='Stopped') {
+  playbackGeneration++;
+  if(playbackTimer!==null) {clearTimeout(playbackTimer);playbackTimer=null;}
+  for(const voice of activeVoices) {
+    for(const {osc,harmonicGain} of voice.oscs){
+      try{osc.stop();}catch(e){}
+      try{osc.disconnect();harmonicGain.disconnect();}catch(e){}
+    }
+    try{voice.lowpass?.disconnect();voice.output.disconnect();}catch(e){}
+  }
+  activeVoices=[];
+  playbackActive=false;
+  clearTimelineIndicators();
+  document.querySelectorAll('.builder-tile.playing').forEach(tile=>tile.classList.remove('playing'));
+  playButton.disabled=false;
+  stopButton.disabled=true;
+  playbackStatus.textContent=message;
+}
+// Piano-inspired synthesized tone: bright hammer attack, decaying harmonics,
+// and a soft release. All audio is generated locally, including on iPhone.
+function soundChord(pitches,duration) {
+  const now=audioContext.currentTime;
+  const end=now+duration;
+  const partials=[
+    {multiple:1,level:1,type:'sine'},
+    {multiple:2,level:.32,type:'sine'},
+    {multiple:3,level:.14,type:'sine'},
+    {multiple:4,level:.055,type:'sine'}
+  ];
+  pitches.forEach((midi,index)=>{
+    const frequency=440*Math.pow(2,(midi-69)/12);
+    const loudness=(index===0?.075:.055)/Math.sqrt(Math.max(1,pitches.length/3));
+    const output=audioContext.createGain();
+    const lowpass=audioContext.createBiquadFilter();
+    lowpass.type='lowpass';
+    lowpass.frequency.value=Math.min(6000,Math.max(2100,frequency*11));
+    lowpass.Q.value=.55;
+    output.gain.setValueAtTime(.0001,now);
+    output.gain.exponentialRampToValueAtTime(loudness,now+.009);
+    output.gain.exponentialRampToValueAtTime(loudness*.42,now+Math.min(.24,duration*.45));
+    output.gain.exponentialRampToValueAtTime(Math.max(.00015,loudness*.14),now+Math.max(.25,duration-.10));
+    output.gain.exponentialRampToValueAtTime(.0001,end);
+    lowpass.connect(output).connect(audioContext.destination);
+    const oscs=[];
+    partials.forEach((partial)=>{
+      const osc=audioContext.createOscillator();
+      const harmonicGain=audioContext.createGain();
+      osc.type=partial.type;
+      // Small inharmonicity makes the tone more piano-like than a pure organ.
+      osc.frequency.value=frequency*partial.multiple*(1+.00012*(partial.multiple-1)**2);
+      harmonicGain.gain.value=partial.level;
+      osc.connect(harmonicGain).connect(lowpass);
+      osc.start(now);
+      osc.stop(end+.03);
+      oscs.push({osc,harmonicGain});
+    });
+    const voice={oscs,output,lowpass};
+    activeVoices.push(voice);
+    let remaining=oscs.length;
+    oscs.forEach(({osc,harmonicGain})=>{
+      osc.onended=()=>{
+        try{osc.disconnect();harmonicGain.disconnect();}catch(e){}
+        if(--remaining===0){
+          const i=activeVoices.indexOf(voice);
+          if(i!==-1) activeVoices.splice(i,1);
+          try{lowpass.disconnect();output.disconnect();}catch(e){}
+        }
+      };
+    });
+  });
+}
+playButton.addEventListener('click',async()=>{
+  if(!builderState.length) {playbackStatus.textContent='Add or load some chords first.';return;}
+  const allPitches=builderState.map(item=>chordPitches(item.name));
+  const bad=allPitches.findIndex(p=>!p);
+  if(bad!==-1) {playbackStatus.textContent='Playback does not yet support '+builderState[bad].name+'.';return;}
+  const tempo=Math.max(40,Math.min(220,Number(document.getElementById('playTempo').value)||100));
+  document.getElementById('playTempo').value=tempo;
+  stopPlayback();
+  try {
+    audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+    await audioContext.resume();
+  } catch(e) {playbackStatus.textContent='Audio could not start. Try opening in Safari or Chrome.';return;}
+  playbackActive=true;playButton.disabled=true;stopButton.disabled=false;
+  const generation=playbackGeneration;
+  currentPlaybackMeter=normalizedMeter(document.getElementById('playMeter').value);
+  const beatSeconds=pulseSeconds(tempo,currentPlaybackMeter);
+  let pulsePosition=0;
+  let index=0;
+  function nextChord() {
+    if(generation!==playbackGeneration||!playbackActive) return;
+    if(index>=allPitches.length) {
+      if(document.getElementById('playLoop').checked) index=0;
+      else {stopPlayback('Finished playing '+allPitches.length+' chords');return;}
+    }
+    document.querySelectorAll('.builder-tile').forEach((tile,i)=>tile.classList.toggle('playing',i===index));
+    playbackStatus.textContent='Playing '+(index+1)+' / '+allPitches.length+' · '+builderState[index].name;
+    clearTimelineIndicators();
+    const beatCount=beatsFor(builderState[index]);
+    const duration=beatCount*beatSeconds;
+    schedulePulses(beatCount,beatSeconds,pulsePosition);
+    const unit=gridUnit(currentPlaybackMeter);
+    scheduleTimelineIndicators('explorer',Math.round(pulsePosition/unit),Math.round(beatCount/unit),beatSeconds*unit);
+    pulsePosition+=beatCount;
+    soundChord(allPitches[index],duration*.92);
+    index++;
+    playbackTimer=setTimeout(nextChord,duration*1000);
+  }
+  nextChord();
+});
+stopButton.addEventListener('click',()=>stopPlayback());
+// Any edit to the progression should stop playback so the displayed sequence stays accurate.
+const originalRenderBuilder=renderBuilder;
+renderBuilder=function(){if(playbackActive)stopPlayback('Progression changed — ready to play');originalRenderBuilder();};
+
+updateBuilderChoices();renderBuilder();
+// Refresh every key-dependent section from the current selector values.
+function refreshForSelectedKey() {
+  getChords();
+  if (!borrowedSection.hidden) getBorrowedChords();
+  builderState.length=0;
+  updateBuilderChoices();
+  renderBuilder();
+}
+['key','scale'].forEach(id => {
+  const selector=document.getElementById(id);
+  selector.addEventListener('change', refreshForSelectedKey);
+  // Also handle keyboard and mobile selection updates promptly.
+  selector.addEventListener('input', refreshForSelectedKey);
+});
+
+// Version 1.9 — named progressions. localStorage is device/browser-specific.
+const SAVED_KEY='chordFinder.savedProgressions.v1';
+const savedContainer=document.getElementById('savedProgressions');
+const saveStatus=document.getElementById('saveStatus');
+let savedProgressions=[];
+try {
+  const stored=JSON.parse(localStorage.getItem(SAVED_KEY)||'[]');
+  if(Array.isArray(stored)) savedProgressions=stored.filter(p=>p && typeof p.id==='string' && typeof p.name==='string' && Array.isArray(p.chords));
+} catch(e) { saveStatus.textContent='Saved progressions could not be read from browser storage.'; }
+function persistProgressions() {
+  try {localStorage.setItem(SAVED_KEY,JSON.stringify(savedProgressions));return true;}
+  catch(e) {saveStatus.textContent='Could not save. Browser storage may be blocked or full.';return false;}
+}
+function renderSavedProgressions() {
+  savedContainer.replaceChildren();
+  if(!savedProgressions.length) {const p=document.createElement('p');p.textContent='No saved progressions yet.';savedContainer.appendChild(p);return;}
+  savedProgressions.forEach(saved=>{
+    const row=document.createElement('div');row.className='saved-item';
+    const info=document.createElement('div');
+    const title=document.createElement('strong');title.textContent=saved.name;
+    const meta=document.createElement('div');meta.className='saved-meta';
+    meta.textContent=saved.key+' '+saved.mode+' · '+saved.chords.map(c=>c.name).join(' – ')+' · '+saved.tempo+' BPM · '+normalizedMeter(saved.meter);
+    info.append(title,meta);
+    const actions=document.createElement('div');actions.className='saved-buttons';
+    const load=document.createElement('button');load.type='button';load.textContent='Load';
+    load.addEventListener('click',()=>{
+      if(builderState.length && !confirm('Load "'+saved.name+'"? This replaces the chords currently in the builder.'))return;
+      const key=document.getElementById('key');const scale=document.getElementById('scale');
+      key.value=saved.key;scale.value=saved.mode;
+      refreshForSelectedKey();
+      builderState.splice(0,builderState.length,...saved.chords.map(c=>({name:c.name,degree:c.degree,beats:beatsFor(c)})));
+      document.getElementById('playTempo').value=saved.tempo;
+      document.getElementById('playMeter').value=normalizedMeter(saved.meter);
+      document.getElementById('playLoop').checked=!!saved.loop;
+      document.getElementById('progressionName').value=saved.name;
+      renderBuilder();
+      saveStatus.textContent='Loaded "'+saved.name+'".';
+      document.getElementById('builderTitle').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    const del=document.createElement('button');del.type='button';del.textContent='Delete';
+    del.addEventListener('click',()=>{
+      if(!confirm('Permanently delete saved progression "'+saved.name+'"?'))return;
+      const previous=savedProgressions;
+      savedProgressions=savedProgressions.filter(p=>p.id!==saved.id);
+      if(!persistProgressions()){savedProgressions=previous;return;}
+      renderSavedProgressions();saveStatus.textContent='Deleted "'+saved.name+'".';
+    });
+    actions.append(load,del);row.append(info,actions);savedContainer.appendChild(row);
+  });
+}
+document.getElementById('saveProgression').addEventListener('click',()=>{
+  const name=document.getElementById('progressionName').value.trim();
+  if(!builderState.length){saveStatus.textContent='Add some chords before saving.';return;}
+  if(!name){saveStatus.textContent='Give your progression a name first.';document.getElementById('progressionName').focus();return;}
+  const existing=savedProgressions.find(p=>p.name.toLowerCase()===name.toLowerCase());
+  if(existing && !confirm('Replace your saved progression "'+existing.name+'" with the current chords?'))return;
+  const record={id:existing?existing.id:String(Date.now())+'-'+Math.random().toString(36).slice(2),name,
+    key:document.getElementById('key').value,mode:document.getElementById('scale').value,
+    chords:builderState.map(c=>({name:c.name,degree:c.degree,beats:beatsFor(c)})),
+    tempo:Math.max(40,Math.min(220,Number(document.getElementById('playTempo').value)||100)),
+    loop:document.getElementById('playLoop').checked,meter:normalizedMeter(document.getElementById('playMeter').value)};
+  const previous=savedProgressions;
+  savedProgressions=existing?savedProgressions.map(p=>p.id===existing.id?record:p):[record,...savedProgressions];
+  if(!persistProgressions()){savedProgressions=previous;return;}
+  renderSavedProgressions();saveStatus.textContent='Saved "'+name+'".';
+});
+renderSavedProgressions();
+
+
+// Version 2.0 — two-screen Song Builder. Sections snapshot saved chord data.
+const songScreen=document.getElementById('songScreen');
+const explorerScreen=document.getElementById('explorerScreen');
+const songStatus=document.getElementById('songStatus');
+const songSectionsElement=document.getElementById('songSections');
+const SONG_STORAGE='chordFinder.savedSongs.v1';
+let songSections=[];
+let activeSongId=null;
+let songs=[];
+let songTimer=null;
+let songGeneration=0;
+let songPlaying=false;
+try {
+  const stored=JSON.parse(localStorage.getItem(SONG_STORAGE)||'[]');
+  if(Array.isArray(stored)) songs=stored.filter(x=>x&&typeof x.id==='string'&&Array.isArray(x.sections));
+} catch(e) {songStatus.textContent='Could not read saved songs.';}
+function switchScreen(screen){
+  const isSong=screen==='song';
+  if(songPlaying)stopSong();
+  if(playbackActive)stopPlayback();
+  songScreen.hidden=!isSong;
+  explorerScreen.hidden=isSong;
+  document.getElementById('songTab').classList.toggle('selected',isSong);
+  document.getElementById('explorerTab').classList.toggle('selected',!isSong);
+  document.getElementById('songTab').setAttribute('aria-current',isSong?'page':'false');
+  document.getElementById('explorerTab').setAttribute('aria-current',isSong?'false':'page');
+  if(isSong)renderSongProgressionChoices();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('explorerTab').addEventListener('click',()=>switchScreen('explorer'));
+document.getElementById('songTab').addEventListener('click',()=>switchScreen('song'));
+function renderSongProgressionChoices(){
+  const select=document.getElementById('songProgression');
+  const previous=select.value;
+  select.replaceChildren();
+  if(!savedProgressions.length){
+    select.add(new Option('Save a progression first',''));
+    document.getElementById('addSongSection').disabled=true;
+    return;
+  }
+  savedProgressions.forEach(p=>select.add(new Option(p.name+' ('+p.key+' '+p.mode+')',p.id)));
+  if(savedProgressions.some(p=>p.id===previous))select.value=previous;
+  document.getElementById('addSongSection').disabled=false;
+}
+function songModified(){
+  if(songPlaying)stopSong('Song changed — ready to play');
+}
+function renderSongSections(){
+  songSectionsElement.replaceChildren();
+  if(!songSections.length){
+    const empty=document.createElement('div');
+    empty.className='song-empty';
+    empty.textContent='Your song is empty. Choose a saved progression above and add your first section.';
+    songSectionsElement.appendChild(empty);return;
+  }
+  songSections.forEach((section,index)=>{
+    const box=document.createElement('article');box.className='song-section';
+    const header=document.createElement('div');header.className='song-section-head';
+    const heading=document.createElement('strong');heading.textContent=(index+1)+'. '+section.type;
+    const controls=document.createElement('div');controls.className='song-section-controls';
+    const repeatLabel=document.createElement('label');repeatLabel.textContent='Repeats ';
+    const repeats=document.createElement('input');repeats.type='number';repeats.min='1';repeats.max='32';repeats.value=section.repeats;
+    repeats.setAttribute('aria-label','Repeat count for '+section.type);
+    repeats.addEventListener('change',()=>{
+      section.repeats=Math.max(1,Math.min(32,Math.floor(Number(repeats.value)||1)));
+      repeats.value=section.repeats;songModified();
+    });
+    repeatLabel.appendChild(repeats);controls.appendChild(repeatLabel);
+    for(const [label,offset] of [['↑',-1],['↓',1]]){
+      const btn=document.createElement('button');btn.type='button';btn.textContent=label;
+      btn.title=offset===-1?'Move section up':'Move section down';
+      btn.disabled=index+offset<0||index+offset>=songSections.length;
+      btn.addEventListener('click',()=>{
+        songModified();[songSections[index],songSections[index+offset]]=[songSections[index+offset],songSections[index]];
+        renderSongSections();
+      });controls.appendChild(btn);
+    }
+    const remove=document.createElement('button');remove.type='button';remove.textContent='Remove';
+    remove.addEventListener('click',()=>{songModified();songSections.splice(index,1);renderSongSections();});
+    controls.appendChild(remove);header.append(heading,controls);
+    const detail=document.createElement('div');detail.className='saved-meta';
+    detail.textContent=section.progressionName+' · '+section.key+' '+section.mode+' · '+section.chords.map(c=>c.name).join(' – ');
+    const chordEditor=document.createElement('div');
+    chordEditor.className='song-chord-editor';
+    section.chords.forEach((chord,chordIndex)=>{
+      const tile=document.createElement('div');
+      tile.className='song-chord';
+      const name=document.createElement('strong');name.textContent=chord.name;
+      tile.append(name,makeBeatSelector(chord,beats=>{
+        chord.beats=beats;songModified();renderTimeline(timeline,section.chords,document.getElementById("songMeter").value,"song-"+index);
+      }));
+      chordEditor.appendChild(tile);
+    });
+    const timeline=document.createElement('div');timeline.className='timeline-wrap';
+    renderTimeline(timeline,section.chords,document.getElementById('songMeter').value,'song-'+index);
+    box.append(header,detail,chordEditor,timeline);songSectionsElement.appendChild(box);
+  });
+}
+document.getElementById('addSongSection').addEventListener('click',()=>{
+  const selected=savedProgressions.find(p=>p.id===document.getElementById('songProgression').value);
+  if(!selected)return;
+  songModified();
+  songSections.push({type:document.getElementById('songSectionType').value,progressionId:selected.id,
+    progressionName:selected.name,key:selected.key,mode:selected.mode,
+    chords:selected.chords.map(c=>({name:c.name,degree:c.degree,beats:beatsFor(c)})),repeats:2});
+  renderSongSections();songStatus.textContent='Section added. Change its repeat count or add another.';
+});
+function stopSong(message='Stopped'){
+  songGeneration++;
+  if(songTimer!==null){clearTimeout(songTimer);songTimer=null;}
+  songPlaying=false;
+  clearTimelineIndicators();
+  stopPlayback();
+  document.getElementById('songPlay').disabled=false;
+  document.getElementById('songStop').disabled=true;
+  document.querySelectorAll('.song-section.playing').forEach(el=>el.classList.remove('playing'));
+  songStatus.textContent=message;
+}
+document.getElementById('songStop').addEventListener('click',()=>stopSong());
+document.getElementById('songPlay').addEventListener('click',async()=>{
+  if(!songSections.length){songStatus.textContent='Add a song section first.';return;}
+  const steps=[];
+  for(let i=0;i<songSections.length;i++){
+    const section=songSections[i];
+    if(!Array.isArray(section.chords)||!section.chords.length){songStatus.textContent='Section '+(i+1)+' has no chords.';return;}
+    const repeats=Math.max(1,Math.min(32,Number(section.repeats)||1));
+    for(let rep=0;rep<repeats;rep++)for(const chord of section.chords){
+      const pitches=chordPitches(chord.name);
+      if(!pitches){songStatus.textContent='Cannot play '+chord.name+' in '+section.type+'.';return;}
+      steps.push({sectionIndex:i,type:section.type,chord:chord.name,pitches,beats:beatsFor(chord)});
+    }
+  }
+  const tempo=Math.max(40,Math.min(220,Number(document.getElementById('songTempo').value)||100));
+  document.getElementById('songTempo').value=tempo;
+  stopSong();
+  try {
+    audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+    await audioContext.resume();
+  }catch(e){songStatus.textContent='Audio could not start. Tap Play again.';return;}
+  songPlaying=true;
+  document.getElementById('songPlay').disabled=true;
+  document.getElementById('songStop').disabled=false;
+  const generation=songGeneration;
+  currentPlaybackMeter=normalizedMeter(document.getElementById('songMeter').value);
+  const beatSeconds=pulseSeconds(tempo,currentPlaybackMeter);
+  let pulsePosition=0;
+  let step=0;
+  function next(){
+    if(generation!==songGeneration||!songPlaying)return;
+    if(step>=steps.length){
+      if(document.getElementById('songLoop').checked)step=0;
+      else {stopSong('Finished playing song');return;}
+    }
+    const current=steps[step];
+    document.querySelectorAll('.song-section').forEach((el,i)=>el.classList.toggle('playing',i===current.sectionIndex));
+    songStatus.textContent='Playing '+current.type+' · '+current.chord+' · '+(step+1)+' / '+steps.length;
+    clearTimelineIndicators();
+    const duration=current.beats*beatSeconds;
+    schedulePulses(current.beats,beatSeconds,pulsePosition);
+    const unit=gridUnit(currentPlaybackMeter);
+    const sectionStart=steps.slice(0,step).filter(x=>x.sectionIndex===current.sectionIndex).reduce((n,x)=>n+x.beats,0);
+    const sectionLength=songSections[current.sectionIndex].chords.reduce((n,c)=>n+beatsFor(c),0);
+    scheduleTimelineIndicators('song-'+current.sectionIndex,Math.round((sectionStart%sectionLength)/unit),Math.round(current.beats/unit),beatSeconds*unit);
+    pulsePosition+=current.beats;
+    soundChord(current.pitches,duration*.92);
+    step++;
+    songTimer=setTimeout(next,duration*1000);
+  }
+  next();
+});
+function persistSongs(){
+  try {localStorage.setItem(SONG_STORAGE,JSON.stringify(songs));return true;}
+  catch(e){songStatus.textContent='Could not save song. Browser storage may be blocked or full.';return false;}
+}
+function renderSavedSongs(){
+  const container=document.getElementById('savedSongs');container.replaceChildren();
+  if(!songs.length){const p=document.createElement('p');p.textContent='No saved songs yet.';container.appendChild(p);return;}
+  songs.forEach(song=>{
+    const row=document.createElement('div');row.className='saved-item';
+    const info=document.createElement('div');
+    const name=document.createElement('strong');name.textContent=song.title;
+    const meta=document.createElement('div');meta.className='saved-meta';
+    meta.textContent=song.sections.length+' sections · '+song.tempo+' BPM · '+normalizedMeter(song.meter);
+    info.append(name,meta);
+    const actions=document.createElement('div');actions.className='saved-buttons';
+    const load=document.createElement('button');load.type='button';load.textContent='Load';
+    load.addEventListener('click',()=>{
+      if(songSections.length&&!confirm('Load "'+song.title+'"? This replaces the song currently being edited.'))return;
+      stopSong();activeSongId=song.id;
+      document.getElementById('songTitle').value=song.title;
+      document.getElementById('songTempo').value=song.tempo;
+      document.getElementById('songMeter').value=normalizedMeter(song.meter);
+      document.getElementById('songLoop').checked=!!song.loop;
+      songSections=JSON.parse(JSON.stringify(song.sections));
+      renderSongSections();songStatus.textContent='Loaded "'+song.title+'".';
+    });
+    const del=document.createElement('button');del.type='button';del.textContent='Delete';
+    del.addEventListener('click',()=>{
+      if(!confirm('Permanently delete song "'+song.title+'"?'))return;
+      const before=songs;songs=songs.filter(s=>s.id!==song.id);
+      if(!persistSongs()){songs=before;return;}
+      if(activeSongId===song.id)activeSongId=null;
+      renderSavedSongs();songStatus.textContent='Deleted "'+song.title+'".';
+    });
+    actions.append(load,del);row.append(info,actions);container.appendChild(row);
+  });
+}
+document.getElementById('saveSong').addEventListener('click',()=>{
+  const title=document.getElementById('songTitle').value.trim();
+  if(!title){songStatus.textContent='Give your song a title first.';document.getElementById('songTitle').focus();return;}
+  if(!songSections.length){songStatus.textContent='Add at least one section first.';return;}
+  const matching=songs.find(s=>s.title.toLowerCase()===title.toLowerCase());
+  if(matching&&!confirm('Replace saved song "'+matching.title+'"?'))return;
+  const record={id:matching?matching.id:(activeSongId&&!songs.some(s=>s.id===activeSongId)?activeSongId:String(Date.now())+'-'+Math.random().toString(36).slice(2)),
+    title,tempo:Math.max(40,Math.min(220,Number(document.getElementById('songTempo').value)||100)),
+    loop:document.getElementById('songLoop').checked,meter:normalizedMeter(document.getElementById('songMeter').value),sections:JSON.parse(JSON.stringify(songSections))};
+  const before=songs;
+  songs=matching?songs.map(s=>s.id===matching.id?record:s):[record,...songs];
+  if(!persistSongs()){songs=before;return;}
+  activeSongId=record.id;renderSavedSongs();songStatus.textContent='Saved "'+title+'".';
+});
+document.getElementById('newSong').addEventListener('click',()=>{
+  if(songSections.length&&!confirm('Start a new song? Unsaved changes to the current song will be lost.'))return;
+  stopSong();activeSongId=null;songSections=[];
+  document.getElementById('songTitle').value='';
+  document.getElementById('songTempo').value='100';
+  document.getElementById('songMeter').value='4/4';
+  document.getElementById('songLoop').checked=false;
+  renderSongSections();songStatus.textContent='New song ready.';
+});
+document.getElementById('songMeter').addEventListener('change',()=>{if(songPlaying)stopSong('Time signature changed — ready to play');renderSongSections();});
+document.getElementById('playMeter').addEventListener('change',()=>{if(playbackActive)stopPlayback('Time signature changed — ready to play');});
+renderSongProgressionChoices();
+renderSongSections();
+renderSavedSongs();
+
+
+// Each cell is one eighth note: half a quarter-note beat in simple meters,
+// one complete counting unit in 6/8 and 7/8.
+function gridUnit(meter){return /8$/.test(normalizedMeter(meter))?1:.5;}
+function gridLength(meter){return meterCycle(normalizedMeter(meter))*(gridUnit(meter)===.5?2:1);}
+function renderTimeline(host,chords,meter,scope){
+  if(!host)return;
+  meter=normalizedMeter(meter);
+  host.replaceChildren();
+  const heading=document.createElement('div');heading.className='timeline-heading';
+  heading.textContent='BAR TIMELINE · '+meter+' · eighth-note grid';
+  host.appendChild(heading);
+  if(!chords.length){const hint=document.createElement('p');hint.textContent='Add chords to see their position in each bar.';host.appendChild(hint);return;}
+  const unit=gridUnit(meter),barSize=gridLength(meter),cells=[];
+  chords.forEach((chord,index)=>{
+    const count=Math.round(beatsFor(chord)/unit);
+    for(let i=0;i<count;i++)cells.push({index,name:chord.name,start:i===0});
+  });
+  const barCount=Math.ceil(cells.length/barSize);
+  for(let b=0;b<barCount;b++){
+    const bar=document.createElement('div');bar.className='timeline-bar';
+    const title=document.createElement('div');title.className='timeline-bar-title';
+    title.textContent='Bar '+(b+1);bar.appendChild(title);
+    const grid=document.createElement('div');grid.className='timeline-grid';
+    grid.style.gridTemplateColumns='repeat('+barSize+',minmax(0,1fr))';
+    for(let n=0;n<barSize;n++){
+      const absolute=b*barSize+n,cell=cells[absolute];
+      const tile=document.createElement('div');tile.className='timeline-cell';
+      tile.dataset.timelineScope=scope;tile.dataset.tick=String(absolute);
+      const groupStart=meter==='6/8'?(n===0||n===3):meter==='7/8'?(n===0||n===2||n===4):n%2===0;
+      if(groupStart)tile.classList.add('strong-beat');
+      if(cell){
+        tile.style.setProperty('--chord-hue',String((cell.index*67+205)%360));
+        const prev=cells[absolute-1];
+        const show=cell.start||!prev||prev.index!==cell.index;
+        const label=document.createElement('span');label.textContent=show?cell.name:'·';
+        label.title=cell.name;tile.appendChild(label);
+      }else tile.classList.add('empty');
+      const beat=document.createElement('small');
+      beat.textContent=/8$/.test(meter)?String(n+1):n%2===0?String(n/2+1):'&';
+      tile.appendChild(beat);grid.appendChild(tile);
+    }
+    bar.appendChild(grid);host.appendChild(bar);
+  }
+  const total=cells.length*unit;
+  const footer=document.createElement('p');footer.className='timeline-total';
+  footer.textContent='Total: '+total+' counting beats · '+Math.floor(cells.length/barSize)+' full bar(s)'+(cells.length%barSize?' + '+(cells.length%barSize)*unit+' beat(s)':'');
+  host.appendChild(footer);
+}
+function markTimeline(scope,tick){
+  document.querySelectorAll('.timeline-cell[data-timeline-scope="'+scope+'"]').forEach(el=>el.classList.toggle('current-tick',Number(el.dataset.tick)===tick));
+}
+let timelineIndicatorTimers=[];
+function clearTimelineIndicators(){
+  timelineIndicatorTimers.forEach(clearTimeout);timelineIndicatorTimers=[];
+  document.querySelectorAll('.timeline-cell.current-tick').forEach(el=>el.classList.remove('current-tick'));
+}
+function scheduleTimelineIndicators(scope,startTick,count,secondsPerUnit){
+  for(let i=0;i<count;i++){
+    const timer=setTimeout(()=>markTimeline(scope,startTick+i),i*secondsPerUnit*1000);
+    timelineIndicatorTimers.push(timer);
+  }
+}
+document.getElementById('playMeter').addEventListener('change',()=>renderTimeline(document.getElementById('explorerTimeline'),builderState,document.getElementById('playMeter').value,'explorer'));
 
   </script>
 </body>
