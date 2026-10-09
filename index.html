@@ -454,6 +454,11 @@ body.full-song-active{overflow:hidden}
 .writing-assistant-host .lyric-assistant{margin:0;position:static;max-height:none}
 body.writing-active{overflow:hidden}
 @media(max-width:899px){.writing-workspace.with-assistant{display:block}.writing-assistant-host{margin-top:20px}.writing-toolbar strong{width:100%}.writing-actions{width:100%}.writing-actions select{flex:1;max-width:none}#writingText{min-height:32vh;padding:14px}.writing-workspace{padding:14px}}
+.full-song-speed{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.full-song-speed input{width:112px;accent-color:#1c568c;cursor:pointer}
+.full-song-speed output{min-width:23px;text-align:right;font-variant-numeric:tabular-nums}
+.full-song-actions{align-items:center}
+@media(max-width:600px){.full-song-speed{order:2;width:100%;justify-content:center}.full-song-speed input{flex:1;max-width:220px}}
 </style>
 </head>
 
@@ -718,6 +723,9 @@ body.writing-active{overflow:hidden}
   <header class="full-song-toolbar">
     <strong id="fullSongHeading">Full Song</strong>
     <div class="full-song-actions">
+      <button type="button" id="fullSongPlay" aria-pressed="false">▶ Scroll</button>
+      <button type="button" id="fullSongReset">↥ Top</button>
+      <label class="full-song-speed" for="fullSongSpeed">Speed <input id="fullSongSpeed" type="range" min="5" max="100" step="5" value="30"><output id="fullSongSpeedValue" for="fullSongSpeed">30</output><span>px/s</span></label>
       <button type="button" id="fullSongSmaller" aria-label="Decrease text size">A−</button>
       <button type="button" id="fullSongLarger" aria-label="Increase text size">A+</button>
       <button type="button" id="fullSongClose">← Return to Editor</button>
@@ -2108,6 +2116,49 @@ function chordSheetHtml(raw){
   }).join('');
 }
 
+let fullSongScrollRunning=false,fullSongScrollFrame=null,fullSongScrollLastTime=null;
+const fullSongScrollArea=document.getElementById('fullSongContent');
+const fullSongScrollButton=document.getElementById('fullSongPlay');
+const fullSongSpeedControl=document.getElementById('fullSongSpeed');
+function stopFullSongScroll(){
+  fullSongScrollRunning=false;
+  if(fullSongScrollFrame!==null)cancelAnimationFrame(fullSongScrollFrame);
+  fullSongScrollFrame=null;fullSongScrollLastTime=null;
+  fullSongScrollButton.textContent='▶ Scroll';
+  fullSongScrollButton.setAttribute('aria-pressed','false');
+}
+function stepFullSongScroll(now){
+  if(!fullSongScrollRunning)return;
+  if(fullSongScrollLastTime!==null){
+    const elapsed=Math.min(100,now-fullSongScrollLastTime)/1000;
+    const maxScroll=Math.max(0,fullSongScrollArea.scrollHeight-fullSongScrollArea.clientHeight);
+    fullSongScrollArea.scrollTop=Math.min(maxScroll,fullSongScrollArea.scrollTop+Number(fullSongSpeedControl.value)*elapsed);
+    if(maxScroll-fullSongScrollArea.scrollTop<1){stopFullSongScroll();return;}
+  }
+  fullSongScrollLastTime=now;
+  fullSongScrollFrame=requestAnimationFrame(stepFullSongScroll);
+}
+function toggleFullSongScroll(){
+  if(fullSongScrollRunning){stopFullSongScroll();return;}
+  const maxScroll=fullSongScrollArea.scrollHeight-fullSongScrollArea.clientHeight;
+  if(maxScroll<1)return;
+  if(fullSongScrollArea.scrollTop>=maxScroll-1)fullSongScrollArea.scrollTop=0;
+  fullSongScrollRunning=true;
+  fullSongScrollButton.textContent='⏸ Pause';
+  fullSongScrollButton.setAttribute('aria-pressed','true');
+  fullSongScrollLastTime=null;
+  fullSongScrollFrame=requestAnimationFrame(stepFullSongScroll);
+}
+fullSongScrollButton.addEventListener('click',toggleFullSongScroll);
+document.getElementById('fullSongReset').addEventListener('click',()=>{
+  stopFullSongScroll();fullSongScrollArea.scrollTop=0;
+});
+fullSongSpeedControl.addEventListener('input',()=>{
+  document.getElementById('fullSongSpeedValue').textContent=fullSongSpeedControl.value;
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)stopFullSongScroll();
+});
 let fullSongFontSize=18;
 let fullSongPreviousFocus=null;
 function renderFullSongView(){
@@ -2146,6 +2197,7 @@ function renderFullSongView(){
   content.appendChild(inner);
 }
 function openFullSongView(){
+  stopFullSongScroll();
   fullSongPreviousFocus=document.activeElement;
   renderFullSongView();
   document.getElementById('fullSongOverlay').hidden=false;
@@ -2153,6 +2205,7 @@ function openFullSongView(){
   document.getElementById('fullSongClose').focus();
 }
 function closeFullSongView(){
+  stopFullSongScroll();
   document.getElementById('fullSongOverlay').hidden=true;
   document.body.classList.remove('full-song-active');
   if(fullSongPreviousFocus&&fullSongPreviousFocus.isConnected)fullSongPreviousFocus.focus();
