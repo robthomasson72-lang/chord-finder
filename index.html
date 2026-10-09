@@ -400,7 +400,7 @@
 .full-song-toolbar strong{font-size:1.1rem}
 .full-song-actions{display:flex;gap:8px;flex-wrap:wrap}
 .full-song-actions button{width:auto;padding:9px 13px}
-.full-song-content{flex:1;overflow:auto;padding:26px clamp(16px,5vw,70px) 70px;scrollbar-gutter:stable}
+.full-song-content{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:26px clamp(16px,5vw,70px) 70px;scrollbar-gutter:stable}
 .full-song-inner{max-width:1100px;margin:0 auto}
 .full-song-title{font-size:1.7em;margin:0 0 25px}
 .full-song-section{margin:0 0 36px;break-inside:avoid}
@@ -725,7 +725,7 @@ body.writing-active{overflow:hidden}
     <div class="full-song-actions">
       <button type="button" id="fullSongPlay" aria-pressed="false">▶ Scroll</button>
       <button type="button" id="fullSongReset">↥ Top</button>
-      <label class="full-song-speed" for="fullSongSpeed">Speed <input id="fullSongSpeed" type="range" min="5" max="100" step="5" value="30"><output id="fullSongSpeedValue" for="fullSongSpeed">30</output><span>px/s</span></label>
+      <label class="full-song-speed" for="fullSongSpeed">Speed <input id="fullSongSpeed" type="range" min="5" max="150" step="5" value="30"><output id="fullSongSpeedValue" for="fullSongSpeed">30</output><span>px/s</span></label>
       <button type="button" id="fullSongSmaller" aria-label="Decrease text size">A−</button>
       <button type="button" id="fullSongLarger" aria-label="Increase text size">A+</button>
       <button type="button" id="fullSongClose">← Return to Editor</button>
@@ -2116,14 +2116,14 @@ function chordSheetHtml(raw){
   }).join('');
 }
 
-let fullSongScrollRunning=false,fullSongScrollFrame=null,fullSongScrollLastTime=null;
+let fullSongScrollRunning=false,fullSongScrollFrame=null,fullSongScrollLastTime=null,fullSongScrollTarget=null;
 const fullSongScrollArea=document.getElementById('fullSongContent');
 const fullSongScrollButton=document.getElementById('fullSongPlay');
 const fullSongSpeedControl=document.getElementById('fullSongSpeed');
 function stopFullSongScroll(){
   fullSongScrollRunning=false;
   if(fullSongScrollFrame!==null)cancelAnimationFrame(fullSongScrollFrame);
-  fullSongScrollFrame=null;fullSongScrollLastTime=null;
+  fullSongScrollFrame=null;fullSongScrollLastTime=null;fullSongScrollTarget=null;
   fullSongScrollButton.textContent='▶ Scroll';
   fullSongScrollButton.setAttribute('aria-pressed','false');
 }
@@ -2132,8 +2132,15 @@ function stepFullSongScroll(now){
   if(fullSongScrollLastTime!==null){
     const elapsed=Math.min(100,now-fullSongScrollLastTime)/1000;
     const maxScroll=Math.max(0,fullSongScrollArea.scrollHeight-fullSongScrollArea.clientHeight);
-    fullSongScrollArea.scrollTop=Math.min(maxScroll,fullSongScrollArea.scrollTop+Number(fullSongSpeedControl.value)*elapsed);
-    if(maxScroll-fullSongScrollArea.scrollTop<1){stopFullSongScroll();return;}
+    // Preserve fractional movement independently of scrollTop: mobile browsers
+    // often round scrollTop to whole pixels, losing subpixel increments.
+    // Resync if the user manually scrolls while auto-scroll is running.
+    if(fullSongScrollTarget===null || Math.abs(fullSongScrollArea.scrollTop-fullSongScrollTarget)>3){
+      fullSongScrollTarget=fullSongScrollArea.scrollTop;
+    }
+    fullSongScrollTarget=Math.min(maxScroll,fullSongScrollTarget+Number(fullSongSpeedControl.value)*elapsed);
+    fullSongScrollArea.scrollTop=fullSongScrollTarget;
+    if(maxScroll-fullSongScrollTarget<0.5){stopFullSongScroll();return;}
   }
   fullSongScrollLastTime=now;
   fullSongScrollFrame=requestAnimationFrame(stepFullSongScroll);
@@ -2147,6 +2154,7 @@ function toggleFullSongScroll(){
   fullSongScrollButton.textContent='⏸ Pause';
   fullSongScrollButton.setAttribute('aria-pressed','true');
   fullSongScrollLastTime=null;
+  fullSongScrollTarget=fullSongScrollArea.scrollTop;
   fullSongScrollFrame=requestAnimationFrame(stepFullSongScroll);
 }
 fullSongScrollButton.addEventListener('click',toggleFullSongScroll);
